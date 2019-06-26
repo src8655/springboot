@@ -65,4 +65,36 @@ public class GuestbookController {
 		return "redirect:/guestbook/list";
 	}
 	
+
+	@RequestMapping(value="/timeline", method=RequestMethod.GET)
+	public String timeline(
+			Model model
+			) {
+		
+		List<GuestbookVo> list = guestbookService.getList();
+		model.addAttribute("list", list);
+		model.addAttribute("cnt", list.size());
+		
+		return "guestbook/index-timeline";
+	}
+	
+	@RequestMapping(value="/timeline", method=RequestMethod.POST)
+	public String timeline_add(
+			GuestbookVo guestbookVo
+			) {
+		
+		guestbookService.add(guestbookVo);
+		
+		return "redirect:/guestbook/timeline";
+	}
+
+	@RequestMapping(value="/timelinedelete", method=RequestMethod.POST)
+	public String timelinedelete(
+			@ModelAttribute GuestbookVo guestbookVo
+			) {
+		
+		guestbookService.delete(guestbookVo);
+		
+		return "redirect:/guestbook/timeline";
+	}
 }
